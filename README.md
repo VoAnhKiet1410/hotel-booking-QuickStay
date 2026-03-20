@@ -338,21 +338,6 @@ Tất cả images được publish tại:
 | Operations | `docker pull dhope14102004/hotel-booking-operations-service` |
 | Client | `docker pull dhope14102004/hotel-booking-client` |
 
-### Build & Push
-
-```powershell
-# Đăng nhập Docker Hub
-docker login -u dhope14102004
-
-# Build và push tất cả images
-.\push-to-dockerhub.ps1
-```
-
----
-
-## 📸 Screenshots
-
-> *Sẽ được bổ sung*
 
 ---
 

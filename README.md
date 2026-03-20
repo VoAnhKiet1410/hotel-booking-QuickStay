@@ -33,7 +33,6 @@ Hotel Booking Platform là hệ thống đặt phòng khách sạn hoàn chỉnh
 |---------|-------|
 | 🧑‍💼 **Guest** | Tìm kiếm, đặt phòng, thanh toán online, chat với khách sạn |
 | 🏢 **Hotel Owner** | Quản lý phòng, booking, doanh thu, housekeeping, khuyến mãi |
-| 🔧 **Admin** | Quản trị toàn hệ thống |
 
 ---
 

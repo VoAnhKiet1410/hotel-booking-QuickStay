@@ -15,6 +15,7 @@ const Hero = () => {
   const [guests, setGuests] = useState('')
   const [isDestinationOpen, setIsDestinationOpen] = useState(false)
   const [activeDestinationIndex, setActiveDestinationIndex] = useState(-1)
+  const dropdownRef = useRef(null)
 
   const heroRef = useRef(null)
   const videoRef = useRef(null)
@@ -34,6 +35,42 @@ const Hero = () => {
     const activeEl = destinationOptionRefs.current[activeDestinationIndex]
     activeEl?.scrollIntoView({ block: 'nearest', behavior: 'smooth' })
   }, [activeDestinationIndex, isDestinationOpen])
+
+  // Chặn Locomotive/Lenis scroll khi cuộn trong dropdown
+  // Dùng callback ref để attach native non-passive listener ngay khi element mount
+  const setDropdownRef = (el) => {
+    // Cleanup listener cũ nếu có
+    if (dropdownRef.current && dropdownRef.current._wheelHandler) {
+      dropdownRef.current.removeEventListener('wheel', dropdownRef.current._wheelHandler)
+    }
+    dropdownRef.current = el
+    if (!el) return
+    const handleWheel = (e) => {
+      const atTop = el.scrollTop === 0 && e.deltaY < 0
+      const atBottom = el.scrollTop + el.clientHeight >= el.scrollHeight && e.deltaY > 0
+      if (!atTop && !atBottom) {
+        // preventDefault ngăn Lenis hoàn toàn (non-passive)
+        e.preventDefault()
+      }
+      // Luôn stopImmediatePropagation để Lenis không nhận event
+      e.stopImmediatePropagation()
+    }
+    el._wheelHandler = handleWheel
+    el.addEventListener('wheel', handleWheel, { passive: false })
+  }
+
+  // Stop Lenis hoàn toàn khi dropdown đang mở — giải pháp dứt điểm nhất
+  useEffect(() => {
+    if (isDestinationOpen) {
+      window.__lenis?.stop()
+    } else {
+      window.__lenis?.start()
+    }
+    return () => {
+      // Cleanup: luôn start lại khi component unmount
+      window.__lenis?.start()
+    }
+  }, [isDestinationOpen])
 
   useLayoutEffect(() => {
     let ctx = gsap.context(() => {
@@ -121,9 +158,9 @@ const Hero = () => {
   }
 
   return (
-    <div ref={heroRef} data-nav-theme="light" className='relative flex flex-col items-start justify-center px-6 md:px-16 lg:px-24 xl:px-32 text-white min-h-screen overflow-hidden'>
-      {/* Video Background with Parallax Locomotive Attributes */}
-      <div data-scroll data-scroll-speed="-0.3" className="absolute w-full h-[120%] -top-[10%] inset-0 z-0 pointer-events-none will-change-transform">
+    <div ref={heroRef} data-nav-theme="light" className='relative flex flex-col items-start justify-center px-6 md:px-16 lg:px-24 xl:px-32 text-white min-h-screen'>
+      {/* Video Background with Parallax — overflow-hidden ở đây để clip video h-[120%] không ảnh hưởng dropdown */}
+      <div data-scroll data-scroll-speed="-0.3" className="absolute w-full h-[120%] -top-[10%] inset-0 z-0 pointer-events-none will-change-transform overflow-hidden">
         <video
           ref={videoRef}
           autoPlay
@@ -218,7 +255,12 @@ const Hero = () => {
               }}
             />
             {isDestinationOpen && filteredCities.length > 0 && (
-              <div data-lenis-prevent className='absolute left-0 right-0 top-full mt-0 max-h-56 overflow-y-auto border border-gray-200 bg-white shadow-[0_12px_40px_rgba(0,0,0,0.12)] z-50 overscroll-contain scroll-smooth'>
+              <div
+                ref={setDropdownRef}
+                data-lenis-prevent
+                className='absolute left-0 right-0 top-full mt-0 max-h-56 overflow-y-auto border border-gray-200 bg-white shadow-[0_12px_40px_rgba(0,0,0,0.12)] z-50 overscroll-contain'
+                onTouchMove={(e) => e.stopPropagation()}
+              >
                 {filteredCities.map((city, index) => (
                   <button
                     key={city}

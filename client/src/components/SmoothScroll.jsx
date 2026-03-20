@@ -52,6 +52,8 @@ export default function SmoothScroll({ children }) {
 
         if (locomotiveScroll.lenis) {
             locomotiveScroll.lenis.on('scroll', ScrollTrigger.update);
+            // Expose lenis instance toàn cục để các component khác có thể stop/start
+            window.__lenis = locomotiveScroll.lenis;
         }
 
         // Làm mới ScrollTrigger để tính toán lại layout sau khi mount
@@ -61,6 +63,7 @@ export default function SmoothScroll({ children }) {
             if (locomotiveScroll.lenis) {
                 locomotiveScroll.lenis.off('scroll', ScrollTrigger.update);
             }
+            window.__lenis = null;
             gsap.ticker.remove(raf);
             locomotiveScroll.destroy();
         };

@@ -6,10 +6,17 @@ import { Building2, Plus, Pencil, Trash2, MapPin, Phone, Star, X, ImagePlus } fr
 
 const THEME_OPTIONS = ['Urban Stays', 'County Stays']
 const WING_OPTIONS = ['Modern Wing', 'Classic Wing']
-const CITY_OPTIONS = ['TP. Hồ Chí Minh', 'Đà Nẵng', 'Hà Nội', 'Đà Lạt']
+const CITY_OPTIONS = [
+    // Miền Bắc
+    'Hà Nội',
+    // Miền Trung
+    'Đà Nẵng',
+    // Miền Nam
+    'TP. Hồ Chí Minh', 'Đà Lạt',
+]
 
 const emptyForm = {
-    name: '', address: '', city: 'TP. Hồ Chí Minh', contact: '', hostDescription: '',
+    name: '', address: '', city: 'Hà Nội', contact: '', hostDescription: '',
     theme: 'Urban Stays', wing: 'Modern Wing', regionDescription: '', starRating: 4,
 }
 
@@ -59,7 +66,7 @@ const HotelInfo = () => {
         setFormData({
             name: hotel.name || '',
             address: hotel.address || '',
-            city: hotel.city || 'TP. Hồ Chí Minh',
+            city: hotel.city || 'Hà Nội',
             contact: hotel.contact || '',
             hostDescription: hotel.hostDescription || '',
             theme: hotel.theme || 'Urban Stays',
@@ -169,7 +176,7 @@ const HotelInfo = () => {
         <div className="max-w-5xl">
             <div className="flex items-center justify-between mb-6">
                 <Title align="left" font="font-outfit" title="Quản lý khách sạn"
-                    subTitle={`${hotels.length} khách sạn — 4 khu vực`} />
+                    subTitle={`${hotels.length} khách sạn — 3 vùng · 12 thành phố`} />
                 <button onClick={openCreate}
                     className="flex items-center gap-2 rounded-full bg-indigo-600 px-5 py-2.5 text-sm font-semibold text-white hover:bg-indigo-700 transition-colors">
                     <Plus className="h-4 w-4" /> Thêm khách sạn

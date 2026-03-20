@@ -5,7 +5,7 @@ import { motion } from 'framer-motion'
 
 const MotionLink = motion.create(Link)
 
-const HotelCard = ({ hotel }) => {
+const HotelCard = ({ hotel, searchQuery = '' }) => {
   // Animation variant for staggered entrance
   const cardVariant = {
     hidden: { opacity: 0, y: 40 },
@@ -34,7 +34,7 @@ const HotelCard = ({ hotel }) => {
   return (
     <MotionLink
       variants={cardVariant}
-      to={`/hotels/${hotel._id}`}
+      to={`/hotels/${hotel._id}${searchQuery}`}
       onClick={() => scrollTo(0, 0)}
       key={hotel._id}
       className="group w-full h-full flex flex-col bg-white border border-gray-300 overflow-hidden hover:-translate-y-1 transition-all duration-500 cursor-pointer"

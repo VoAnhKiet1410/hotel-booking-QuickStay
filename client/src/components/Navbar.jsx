@@ -490,43 +490,58 @@ const Navbar = () => {
                         transition: `all 0.7s cubic-bezier(0.16, 1, 0.3, 1) ${isMenuOpen ? 0.15 : 0}s`
                     }}
                 >
+                    <p className="font-mono text-[9px] uppercase tracking-[0.25em] text-amber-400/70 mb-2">Khám phá</p>
+                    <h2 className="font-playfair text-2xl font-bold text-white mb-6">Chọn Điểm Đến<br />Của Bạn</h2>
+
                     {/* Region: Miền Bắc */}
-                    <p className="font-mono text-[9px] uppercase tracking-[0.25em] text-amber-400/70 mb-3">Miền Bắc, Việt Nam</p>
-                    <div className="border-t border-white/10 pt-3 mb-6">
-                        <button
-                            onClick={() => { navigate('/rooms'); setIsMenuOpen(false); }}
-                            className="group flex items-center gap-3 cursor-pointer"
-                        >
-                            <span className="font-playfair text-2xl md:text-[28px] font-bold text-white/90 group-hover:text-white transition-colors duration-300">
-                                Hà Nội
-                            </span>
-                        </button>
+                    <p className="font-mono text-[9px] uppercase tracking-[0.25em] text-amber-400/70 mb-3">Miền Bắc</p>
+                    <div className="border-t border-white/10 pt-3 mb-6 space-y-3">
+                        {['Hà Nội', 'Sa Pa', 'Ninh Bình', 'Hạ Long'].map((city) => (
+                            <div key={city} className="border-b border-white/5 pb-3 last:border-0">
+                                <button
+                                    onClick={() => { navigate(`/rooms?city=${encodeURIComponent(city)}`); setIsMenuOpen(false); scrollTo(0, 0); }}
+                                    className="group flex items-center gap-3 cursor-pointer w-full text-left"
+                                >
+                                    <span className="font-playfair text-xl md:text-2xl font-semibold text-white/80 group-hover:text-white transition-colors duration-300">
+                                        {city}
+                                    </span>
+                                </button>
+                            </div>
+                        ))}
                     </div>
 
                     {/* Region: Miền Trung */}
-                    <p className="font-mono text-[9px] uppercase tracking-[0.25em] text-amber-400/70 mb-3">Miền Trung, Việt Nam</p>
-                    <div className="border-t border-white/10 pt-3 mb-6">
-                        <button
-                            onClick={() => { navigate('/rooms'); setIsMenuOpen(false); }}
-                            className="group flex items-center gap-3 cursor-pointer"
-                        >
-                            <span className="font-playfair text-2xl md:text-[28px] font-bold text-white/90 group-hover:text-white transition-colors duration-300">
-                                Đà Nẵng
-                            </span>
-                        </button>
+                    <p className="font-mono text-[9px] uppercase tracking-[0.25em] text-amber-400/70 mb-3">Miền Trung</p>
+                    <div className="border-t border-white/10 pt-3 mb-6 space-y-3">
+                        {['Đà Nẵng', 'Hội An', 'Huế', 'Nha Trang'].map((city) => (
+                            <div key={city} className="border-b border-white/5 pb-3 last:border-0">
+                                <button
+                                    onClick={() => { navigate(`/rooms?city=${encodeURIComponent(city)}`); setIsMenuOpen(false); scrollTo(0, 0); }}
+                                    className="group flex items-center gap-3 cursor-pointer w-full text-left"
+                                >
+                                    <span className="font-playfair text-xl md:text-2xl font-semibold text-white/80 group-hover:text-white transition-colors duration-300">
+                                        {city}
+                                    </span>
+                                </button>
+                            </div>
+                        ))}
                     </div>
 
                     {/* Region: Miền Nam */}
-                    <p className="font-mono text-[9px] uppercase tracking-[0.25em] text-amber-400/70 mb-3">Miền Nam, Việt Nam</p>
-                    <div className="border-t border-white/10 pt-3 space-y-1">
-                        <button
-                            onClick={() => { navigate('/rooms'); setIsMenuOpen(false); }}
-                            className="group flex items-center gap-3 cursor-pointer"
-                        >
-                            <span className="font-playfair text-2xl md:text-[28px] font-bold text-white/90 group-hover:text-white transition-colors duration-300">
-                                Sài Gòn
-                            </span>
-                        </button>
+                    <p className="font-mono text-[9px] uppercase tracking-[0.25em] text-amber-400/70 mb-3">Miền Nam</p>
+                    <div className="border-t border-white/10 pt-3 space-y-3">
+                        {['Sài Gòn', 'Đà Lạt', 'Phú Quốc', 'Cần Thơ'].map((city) => (
+                            <div key={city} className="border-b border-white/5 pb-3 last:border-0">
+                                <button
+                                    onClick={() => { navigate(`/rooms?city=${encodeURIComponent(city)}`); setIsMenuOpen(false); scrollTo(0, 0); }}
+                                    className="group flex items-center gap-3 cursor-pointer w-full text-left"
+                                >
+                                    <span className="font-playfair text-xl md:text-2xl font-semibold text-white/80 group-hover:text-white transition-colors duration-300">
+                                        {city}
+                                    </span>
+                                </button>
+                            </div>
+                        ))}
                     </div>
                 </div>
 

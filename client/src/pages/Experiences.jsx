@@ -118,9 +118,9 @@ const SlideDrawer = ({ isOpen, onClose, children }) => {
    ────────────────────────────────────────────── */
 const LocationPicker = ({ onSelect }) => {
     const regions = [
-        { name: 'Miền Bắc', cities: ['Hà Nội', 'Sa Pa', 'Ninh Bình', 'Hạ Long'] },
-        { name: 'Miền Trung', cities: ['Đà Nẵng', 'Hội An', 'Huế', 'Nha Trang'] },
-        { name: 'Miền Nam', cities: ['Sài Gòn', 'Đà Lạt', 'Phú Quốc', 'Cần Thơ'] },
+        { name: 'Miền Bắc', cities: ['Hà Nội'] },
+        { name: 'Miền Trung', cities: ['Đà Nẵng'] },
+        { name: 'Miền Nam', cities: ['Sài Gòn', 'Đà Lạt'] },
     ];
 
     return (

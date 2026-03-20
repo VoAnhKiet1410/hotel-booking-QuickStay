@@ -110,9 +110,8 @@ export const assets = {
 
 export const cities = [
     "Hà Nội",
-    "TP. Hồ Chí Minh",
     "Đà Nẵng",
-    "Nha Trang",
+    "TP. Hồ Chí Minh",
     "Đà Lạt",
 ];
 

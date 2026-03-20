@@ -140,7 +140,7 @@ Hệ thống được thiết kế theo kiến trúc **Microservices** với **A
 
 - **Clerk Authentication** — Đăng nhập/đăng ký qua Clerk (Google, Email)
 - **JWT Tokens** — Access token + Refresh token
-- **RBAC** — Phân quyền theo vai trò: Guest, Hotel Owner, Admin
+- **RBAC** — Phân quyền theo vai trò: Guest, Hotel Owner
 
 ---
 

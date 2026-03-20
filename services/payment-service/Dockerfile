@@ -1,12 +1,12 @@
-﻿FROM node:20-alpine
+FROM node:20-alpine
 
 WORKDIR /app
 
-COPY package*.json ./
-RUN npm ci --only=production
-
 COPY . .
+
+RUN cd services/payment-service && npm ci --only=production
 
 EXPOSE 3004
 
-CMD ["node", "server.js"]
+CMD ["node", "services/payment-service/server.js"]
+

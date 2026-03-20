@@ -1,16 +1,17 @@
 FROM node:20-alpine
 
-# Đặt WORKDIR là repo root để relative import ../../../shared hoạt động đúng
-# File: /app/services/auth-service/routes/*.js → ../../../shared = /app/shared ✅
+# WORKDIR là repo root để relative import ../../../shared hoạt động đúng
 WORKDIR /app
 
-# Copy toàn bộ repo (giữ nguyên cấu trúc shared/)
+# Copy toàn bộ repo
 COPY . .
 
-# Cài dependencies cho auth-service
+# Install shared dependencies (có @clerk/express, mongoose, jsonwebtoken)
+RUN cd shared && npm ci --only=production
+
+# Install auth-service dependencies
 RUN cd services/auth-service && npm ci --only=production
 
 EXPOSE 3001
 
-# Chạy từ repo root để path resolution đúng
 CMD ["node", "services/auth-service/server.js"]

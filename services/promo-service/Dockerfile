@@ -4,9 +4,10 @@ WORKDIR /app
 
 COPY . .
 
+RUN cd shared && npm ci --only=production
+
 RUN cd services/promo-service && npm ci --only=production
 
 EXPOSE 3008
 
 CMD ["node", "services/promo-service/server.js"]
-

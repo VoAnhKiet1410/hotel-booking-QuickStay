@@ -27,7 +27,7 @@
 
 ## 🎯 Tổng Quan
 
-Hotel Booking Platform là hệ thống đặt phòng khách sạn hoàn chỉnh, hỗ trợ **3 vai trò người dùng**:
+Hotel Booking Platform là hệ thống đặt phòng khách sạn hoàn chỉnh, hỗ trợ **2 vai trò người dùng**:
 
 | Vai trò | Mô tả |
 |---------|-------|

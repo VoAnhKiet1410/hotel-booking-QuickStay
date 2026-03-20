@@ -227,7 +227,7 @@ hotel-booking/
 
 ```bash
 # 1. Clone repository
-git clone https://github.com/dhope14102004/hotel-booking.git
+git clone https://github.com/dhope14102004/hotel-booking-QuickStay.git
 cd hotel-booking
 
 # 2. Cài đặt dependencies cho từng service

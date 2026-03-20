@@ -33,7 +33,6 @@ Hotel Booking Platform là hệ thống đặt phòng khách sạn hoàn chỉnh
 |---------|-------|
 | 🧑‍💼 **Guest** | Tìm kiếm, đặt phòng, thanh toán online, chat với khách sạn |
 | 🏢 **Hotel Owner** | Quản lý phòng, booking, doanh thu, housekeeping, khuyến mãi |
-| 🔧 **Admin** | Quản trị toàn hệ thống |
 
 ---
 
@@ -227,7 +226,7 @@ hotel-booking/
 
 ```bash
 # 1. Clone repository
-git clone https://github.com/dhope14102004/hotel-booking.git
+git clone https://github.com/dhope14102004/hotel-booking-QuickStay.git
 cd hotel-booking
 
 # 2. Cài đặt dependencies cho từng service
@@ -339,21 +338,6 @@ Tất cả images được publish tại:
 | Operations | `docker pull dhope14102004/hotel-booking-operations-service` |
 | Client | `docker pull dhope14102004/hotel-booking-client` |
 
-### Build & Push
-
-```powershell
-# Đăng nhập Docker Hub
-docker login -u dhope14102004
-
-# Build và push tất cả images
-.\push-to-dockerhub.ps1
-```
-
----
-
-## 📸 Screenshots
-
-> *Sẽ được bổ sung*
 
 ---
 

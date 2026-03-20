@@ -1,0 +1,22 @@
+{
+  "name": "@hotel/shared",
+  "version": "1.0.0",
+  "description": "Shared utilities for hotel-booking microservices",
+  "type": "module",
+  "main": "index.js",
+  "scripts": {
+    "test": "vitest run",
+    "test:watch": "vitest"
+  },
+  "keywords": [],
+  "author": "",
+  "license": "ISC",
+  "dependencies": {
+    "@clerk/express": "^1.7.60",
+    "jsonwebtoken": "^9.0.3",
+    "mongoose": "^9.0.2"
+  },
+  "devDependencies": {
+    "vitest": "^4.0.18"
+  }
+}

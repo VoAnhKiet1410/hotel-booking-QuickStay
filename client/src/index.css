@@ -1,0 +1,206 @@
+@import url('https://fonts.googleapis.com/css2?family=Be+Vietnam+Pro:wght@300;400;500;600;700&family=Playfair+Display:ital,wght@0,400..900;1,400..900&display=swap');
+@import "tailwindcss";
+
+@theme {
+  --color-primary: #2563EB;
+  --color-secondary: #FBBF24;
+}
+
+*{
+  font-family: "Be Vietnam Pro", ui-sans-serif, system-ui, -apple-system, "Segoe UI", Roboto, Arial, "Noto Sans", "Liberation Sans", sans-serif;
+}
+
+.font-playfair{
+  font-family: "Playfair Display", ui-serif, Georgia, Cambria, "Times New Roman", Times, serif !important;
+}
+
+.route-fade-slide{
+  animation: route-fade-slide 0.4s ease-out;
+}
+
+@keyframes route-fade-slide{
+  from{
+    opacity: 0;
+    transform: translateY(8px);
+  }
+  to{
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
+/* ── Scroll Reveal ── */
+.reveal {
+  opacity: 0;
+  transform: translateY(28px);
+  transition: opacity 0.7s cubic-bezier(0.16, 1, 0.3, 1), transform 0.7s cubic-bezier(0.16, 1, 0.3, 1);
+}
+.reveal.revealed { opacity: 1; transform: translateY(0); }
+.reveal-delay-1 { transition-delay: 0.1s; }
+.reveal-delay-2 { transition-delay: 0.2s; }
+.reveal-delay-3 { transition-delay: 0.3s; }
+.reveal-delay-4 { transition-delay: 0.4s; }
+
+/* ── Hero entrance animations ── */
+@keyframes heroFadeUp {
+  from { opacity: 0; transform: translateY(28px); }
+  to   { opacity: 1; transform: translateY(0); }
+}
+.hero-animate { animation: heroFadeUp 0.9s cubic-bezier(0.16, 1, 0.3, 1) forwards; opacity: 0; }
+.hero-delay-1 { animation-delay: 0.15s; }
+.hero-delay-2 { animation-delay: 0.35s; }
+.hero-delay-3 { animation-delay: 0.55s; }
+.hero-delay-4 { animation-delay: 0.75s; }
+.hero-delay-5 { animation-delay: 0.95s; }
+
+/* ── Scroll indicator bounce ── */
+@keyframes scrollBounce {
+  0%, 100% { transform: translateY(0); opacity: 0.4; }
+  50%       { transform: translateY(8px); opacity: 0.8; }
+}
+.scroll-indicator { animation: scrollBounce 2s ease-in-out infinite; }
+
+/* ════════════════════════════════════════
+   NewsLetter section — nl-* classes
+   ════════════════════════════════════════ */
+
+/* Floating decorative icons */
+.nl-floating-icons {
+  position: absolute;
+  inset: 0;
+  pointer-events: none;
+  overflow: hidden;
+  z-index: 0;
+}
+.nl-float-icon {
+  position: absolute;
+  font-size: 1.5rem;
+  opacity: 0.07;
+  animation: nlFloat 8s ease-in-out infinite;
+  z-index: 0;
+}
+.nl-float-1 { top: 15%; left: 8%; animation-delay: 0s; }
+.nl-float-2 { top: 60%; right: 12%; animation-delay: -2s; font-size: 1.2rem; }
+.nl-float-3 { bottom: 20%; left: 15%; animation-delay: -4s; font-size: 1.8rem; }
+.nl-float-4 { top: 25%; right: 20%; animation-delay: -6s; }
+
+@keyframes nlFloat {
+  0%, 100% { transform: translateY(0) rotate(0deg); }
+  25%       { transform: translateY(-18px) rotate(5deg); }
+  50%       { transform: translateY(-8px) rotate(-3deg); }
+  75%       { transform: translateY(-22px) rotate(3deg); }
+}
+
+/* Benefit tags */
+.nl-benefit-tag {
+  display: inline-flex;
+  align-items: center;
+  padding: 4px 12px;
+  border: 1px solid rgba(255, 255, 255, 0.15);
+  border-radius: 100px;
+  font-size: 11px;
+  color: rgba(255, 255, 255, 0.5);
+  font-weight: 300;
+  transition: all 0.3s ease;
+  background: rgba(255, 255, 255, 0.04);
+}
+.nl-benefit-tag:hover {
+  border-color: rgba(255, 255, 255, 0.35);
+  color: rgba(255, 255, 255, 0.75);
+  background: rgba(255, 255, 255, 0.08);
+}
+
+/* Social proof avatars */
+.nl-social-proof { display: flex; align-items: center; gap: 10px; margin-top: 4px; }
+.nl-avatar-stack { display: flex; }
+.nl-avatar {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  width: 28px;
+  height: 28px;
+  border-radius: 50%;
+  background: rgba(255, 255, 255, 0.1);
+  border: 2px solid rgb(17, 24, 39);
+  margin-left: -8px;
+  font-size: 14px;
+}
+.nl-avatar:first-child { margin-left: 0; }
+
+/* Email input — visible border on dark bg */
+.nl-email-input {
+  width: 100%;
+  border: 1.5px solid rgba(255, 255, 255, 0.35);
+  background: rgba(255, 255, 255, 0.06);
+  padding: 14px 20px;
+  font-size: 14px;
+  color: white;
+  outline: none;
+  transition: all 0.3s ease;
+  font-weight: 300;
+  border-radius: 8px;
+}
+.nl-email-input::placeholder { color: rgba(255, 255, 255, 0.35); }
+.nl-email-input:focus {
+  border-color: rgba(255, 255, 255, 0.7);
+  background: rgba(255, 255, 255, 0.1);
+}
+.nl-email-input:disabled { opacity: 0.5; cursor: not-allowed; }
+.nl-input-error { border-color: rgba(239, 68, 68, 0.7) !important; }
+
+/* Shake animation */
+.nl-shake { animation: nlShake 0.5s cubic-bezier(0.36, 0.07, 0.19, 0.97); }
+@keyframes nlShake {
+  0%, 100% { transform: translateX(0); }
+  10% { transform: translateX(-8px); }
+  30% { transform: translateX(7px); }
+  50% { transform: translateX(-5px); }
+  70% { transform: translateX(4px); }
+  90% { transform: translateX(-2px); }
+}
+
+/* Loading spinner */
+.nl-spinner {
+  width: 20px;
+  height: 20px;
+  border: 2px solid rgba(255, 255, 255, 0.25);
+  border-top-color: white;
+  border-radius: 50%;
+  animation: nlSpin 0.6s linear infinite;
+}
+@keyframes nlSpin { to { transform: rotate(360deg); } }
+
+/* Success state */
+.nl-success-state {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  text-align: center;
+  padding: 20px 0;
+  animation: nlFadeIn 0.5s ease-out;
+}
+@keyframes nlFadeIn {
+  from { opacity: 0; transform: translateY(10px); }
+  to   { opacity: 1; transform: translateY(0); }
+}
+.nl-checkmark-circle { width: 64px; height: 64px; }
+.nl-checkmark-svg { width: 100%; height: 100%; }
+.nl-checkmark-circle-bg {
+  stroke: rgba(34, 197, 94, 0.6);
+  stroke-width: 2;
+  stroke-dasharray: 166;
+  stroke-dashoffset: 166;
+  animation: nlCircleDraw 0.6s cubic-bezier(0.65, 0, 0.45, 1) forwards;
+}
+.nl-checkmark-check {
+  stroke: #22c55e;
+  stroke-width: 3;
+  stroke-linecap: round;
+  stroke-linejoin: round;
+  stroke-dasharray: 48;
+  stroke-dashoffset: 48;
+  animation: nlCheckDraw 0.4s cubic-bezier(0.65, 0, 0.45, 1) 0.4s forwards;
+}
+@keyframes nlCircleDraw { to { stroke-dashoffset: 0; } }
+@keyframes nlCheckDraw  { to { stroke-dashoffset: 0; } }
+

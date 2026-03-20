@@ -1,0 +1,20 @@
+﻿{
+    "name":  "notification-service",
+    "version":  "1.0.0",
+    "type":  "module",
+    "main":  "server.js",
+    "scripts":  {
+                    "dev":  "nodemon server.js",
+                    "start":  "node server.js"
+                },
+    "dependencies":  {
+                         "@clerk/express":  "^1.7.60",
+                         "bcryptjs":  "^3.0.3",
+                         "cors":  "^2.8.5",
+                         "dotenv":  "^17.2.3",
+                         "express":  "^5.2.1",
+                         "mongoose":  "^9.0.2",
+                         "nodemailer":  "^6.9.9",
+                         "socket.io":  "^4.8.3"
+                     }
+}

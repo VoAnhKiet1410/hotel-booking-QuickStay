@@ -1,0 +1,17 @@
+﻿{
+    "name":  "gateway",
+    "version":  "1.0.0",
+    "description":  "API Gateway for hotel-booking microservices",
+    "type":  "module",
+    "main":  "gateway.js",
+    "scripts":  {
+                    "dev":  "nodemon gateway.js",
+                    "start":  "node gateway.js"
+                },
+    "dependencies":  {
+                         "cors":  "^2.8.5",
+                         "dotenv":  "^17.2.3",
+                         "express":  "^5.2.1",
+                         "http-proxy-middleware":  "^3.0.5"
+                     }
+}

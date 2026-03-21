@@ -3,7 +3,7 @@ import { createServiceClient } from '../../../shared/utils/serviceClient.js';
 
 // Client gọi Auth Service để lấy/tạo user
 const authClient = createServiceClient(
-    process.env.AUTH_SERVICE_URL || 'http://localhost:3001'
+    process.env.AUTH_SERVICE_URL || 'http://localhost:3000'
 );
 
 /**

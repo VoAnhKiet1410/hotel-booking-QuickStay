@@ -6,7 +6,7 @@ import { createServiceClient } from '../../../shared/utils/serviceClient.js';
 
 // Service client cho Booking Service (kiểm tra booking trước khi xóa room)
 const bookingClient = createServiceClient(
-    process.env.BOOKING_SERVICE_URL || 'http://localhost:3003'
+    process.env.BOOKING_SERVICE_URL || 'http://localhost:3000'
 );
 
 const normalizeRoom = (room) => {

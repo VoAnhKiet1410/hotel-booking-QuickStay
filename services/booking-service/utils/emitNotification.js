@@ -8,7 +8,7 @@ import { createServiceClient } from '../../../shared/utils/serviceClient.js';
 import Notification from '../models/Notification.js';
 
 const notificationClient = createServiceClient(
-    process.env.NOTIFICATION_SERVICE_URL || 'http://localhost:3005'
+    process.env.NOTIFICATION_SERVICE_URL || 'http://localhost:3000'
 );
 
 export const emitNotification = async (receiverId, notification) => {
@@ -36,7 +36,7 @@ export const emitNotification = async (receiverId, notification) => {
 
     // 2. Gọi Notification Service để emit socket real-time
     try {
-        await notificationClient.post('/internal/emit', {
+        await notificationClient.post('/internal/notification/emit', {
             receiverId: receiverId.toString(),
             notificationData: {
                 ...notification,

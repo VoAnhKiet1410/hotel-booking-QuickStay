@@ -44,8 +44,13 @@ router.post('/send-email', async (req, res) => {
             });
         }
 
-        const result = await sendEmail({ to, subject, html, text });
-        res.json({ success: result.success });
+        // Respond ngay → tránh serviceClient timeout khi SMTP chậm
+        res.json({ success: true, message: 'Email queued' });
+
+        // Gửi email fire-and-forget (không block response)
+        sendEmail({ to, subject, html, text }).catch((err) => {
+            console.error('Background send-email error:', err.message);
+        });
     } catch (error) {
         console.error('Internal send-email error:', error);
         res.status(500).json({ success: false, message: 'Server error' });

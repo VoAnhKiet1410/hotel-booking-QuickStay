@@ -7,10 +7,10 @@ const adminRouter = express.Router();
 
 // Service clients cho inter-service calls
 const bookingClient = createServiceClient(
-    process.env.BOOKING_SERVICE_URL || 'http://localhost:3003'
+    process.env.BOOKING_SERVICE_URL || 'http://localhost:3000'
 );
 const hotelClient = createServiceClient(
-    process.env.HOTEL_SERVICE_URL || 'http://localhost:3002'
+    process.env.HOTEL_SERVICE_URL || 'http://localhost:3000'
 );
 
 // Middleware xác thực JWT cho admin

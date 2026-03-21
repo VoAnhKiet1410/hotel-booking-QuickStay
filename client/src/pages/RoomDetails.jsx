@@ -585,7 +585,12 @@ const RoomDetails = () => {
             {/* CTA — Book a Room */}
             <button
               type="button"
-              onClick={() => document.getElementById('booking-card')?.scrollIntoView({ behavior: 'smooth' })}
+              onClick={() => {
+                const el = document.getElementById('booking-card')
+                if (el) {
+                  el.scrollIntoView({ behavior: 'smooth', block: 'start' })
+                }
+              }}
               className="inline-flex items-center gap-3 font-mono text-[11px] uppercase tracking-[0.15em] text-gray-900 border-[2px] border-gray-900 px-6 py-3 hover:bg-gray-900 hover:text-white transition-all cursor-pointer group"
             >
               <span>Đặt phòng</span>

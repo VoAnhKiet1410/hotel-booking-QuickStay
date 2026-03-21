@@ -491,7 +491,7 @@ const Navbar = () => {
                     }}
                 >
                     <p className="font-mono text-[9px] uppercase tracking-[0.25em] text-amber-400/70 mb-2">Khám phá</p>
-                    <h2 className="font-playfair text-2xl font-bold text-white mb-6">Chọn Điểm Đến<br />Của Bạn</h2>
+                    <h2 className="text-lg font-semibold tracking-wide text-white mb-6 whitespace-nowrap">Chọn Điểm Đến Của Bạn</h2>
 
                     {/* Region: Miền Bắc */}
                     <p className="font-mono text-[9px] uppercase tracking-[0.25em] text-amber-400/70 mb-3">Miền Bắc</p>

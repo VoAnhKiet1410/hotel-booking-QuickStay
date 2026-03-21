@@ -496,7 +496,7 @@ const Navbar = () => {
                     {/* Region: Miền Bắc */}
                     <p className="font-mono text-[9px] uppercase tracking-[0.25em] text-amber-400/70 mb-3">Miền Bắc</p>
                     <div className="border-t border-white/10 pt-3 mb-6 space-y-3">
-                        {['Hà Nội', 'Sa Pa', 'Ninh Bình', 'Hạ Long'].map((city) => (
+                        {['Hà Nội'].map((city) => (
                             <div key={city} className="border-b border-white/5 pb-3 last:border-0">
                                 <button
                                     onClick={() => { navigate(`/rooms?city=${encodeURIComponent(city)}`); setIsMenuOpen(false); scrollTo(0, 0); }}
@@ -513,7 +513,7 @@ const Navbar = () => {
                     {/* Region: Miền Trung */}
                     <p className="font-mono text-[9px] uppercase tracking-[0.25em] text-amber-400/70 mb-3">Miền Trung</p>
                     <div className="border-t border-white/10 pt-3 mb-6 space-y-3">
-                        {['Đà Nẵng', 'Hội An', 'Huế', 'Nha Trang'].map((city) => (
+                        {['Đà Nẵng'].map((city) => (
                             <div key={city} className="border-b border-white/5 pb-3 last:border-0">
                                 <button
                                     onClick={() => { navigate(`/rooms?city=${encodeURIComponent(city)}`); setIsMenuOpen(false); scrollTo(0, 0); }}
@@ -530,7 +530,7 @@ const Navbar = () => {
                     {/* Region: Miền Nam */}
                     <p className="font-mono text-[9px] uppercase tracking-[0.25em] text-amber-400/70 mb-3">Miền Nam</p>
                     <div className="border-t border-white/10 pt-3 space-y-3">
-                        {['Sài Gòn', 'Đà Lạt', 'Phú Quốc', 'Cần Thơ'].map((city) => (
+                        {['Thành Phố Hồ Chí Minh', 'Đà Lạt'].map((city) => (
                             <div key={city} className="border-b border-white/5 pb-3 last:border-0">
                                 <button
                                     onClick={() => { navigate(`/rooms?city=${encodeURIComponent(city)}`); setIsMenuOpen(false); scrollTo(0, 0); }}

@@ -4,16 +4,27 @@ let io;
 const userSocketMap = {}; // { clerkUserId: socketId }
 
 export const initSocket = (server) => {
+    const allowedOrigins = [
+        process.env.CLIENT_URL,
+        'http://localhost:5173',
+        'http://localhost:5174',
+        'http://127.0.0.1:5173',
+        'http://127.0.0.1:5174',
+    ].filter(Boolean).map(url => url.trim().replace(/\/+$/, ''));
+
     io = new Server(server, {
         cors: {
-            origin: [
-                process.env.CLIENT_URL,
-                'http://localhost:5173',
-                'http://localhost:5174',
-                'http://127.0.0.1:5173',
-                'http://127.0.0.1:5174',
-            ].filter(Boolean).map(url => url.trim().replace(/\/+$/, '')),
-            methods: ["GET", "POST"]
+            origin: (origin, callback) => {
+                if (!origin) return callback(null, true);
+                if (allowedOrigins.includes(origin)) return callback(null, true);
+                // Cho phép tất cả Vercel preview/production URLs
+                if (origin.endsWith('.vercel.app')) return callback(null, true);
+                // Cho phép Railway internal URLs
+                if (origin.endsWith('.railway.app')) return callback(null, true);
+                return callback(new Error('Not allowed by Socket.IO CORS'));
+            },
+            methods: ['GET', 'POST'],
+            credentials: true,
         }
     });
 

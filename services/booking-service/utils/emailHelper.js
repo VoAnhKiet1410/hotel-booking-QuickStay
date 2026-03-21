@@ -6,7 +6,7 @@
 import { createServiceClient } from '../../../shared/utils/serviceClient.js';
 
 const notificationClient = createServiceClient(
-    process.env.NOTIFICATION_SERVICE_URL || 'http://localhost:3005'
+    process.env.NOTIFICATION_SERVICE_URL || 'http://localhost:3000'
 );
 
 /**
@@ -26,7 +26,7 @@ export const trySendEmail = async (
 
     try {
         const emailData = templateFn(data, user);
-        await notificationClient.post('/internal/send-email', {
+        await notificationClient.post('/internal/notification/send-email', {
             to: user.email,
             subject: emailData.subject,
             html: emailData.html,

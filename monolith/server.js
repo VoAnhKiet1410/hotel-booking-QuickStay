@@ -53,7 +53,7 @@ import chatRouter from '../services/chat-service/routes/chatRoutes.js';
 import reviewRouter from '../services/review-service/routes/reviewRoutes.js';
 
 // ── Promo Service ───────────────────────────────────────────────
-import promoRouter from '../services/promo-service/routes/promoRoutes.js';
+import promoRouter from '../services/promo-service/routes/promotionRoutes.js';
 import subscriberRouter from '../services/promo-service/routes/subscriberRoutes.js';
 
 // ── Operations Service ──────────────────────────────────────────

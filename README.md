@@ -127,7 +127,8 @@
 | JWT | Admin token |
 | Socket.IO | Real-time events (chat, notifications) |
 | Stripe SDK | Payment processing & webhooks |
-| Nodemailer | Email service |
+| Nodemailer | Email service (SMTP — local dev) |
+| Resend API | Email service (HTTP API — production) |
 | Multer + Cloudinary | File upload & image hosting |
 | Node-cron | Scheduled jobs (Night Audit, Reminders) |
 | Svix | Clerk webhook verification |
@@ -139,6 +140,7 @@
 | Cloudinary | Image hosting |
 | Clerk | Authentication provider |
 | Stripe | Payment gateway |
+| Resend | Email delivery API (production) |
 | Vercel | Frontend hosting |
 | Railway / Render | Backend hosting |
 | Docker | Containerization (local dev) |
@@ -396,7 +398,59 @@ HOTEL_SERVICE_URL=http://localhost:3000
 BOOKING_SERVICE_URL=http://localhost:3000
 PAYMENT_SERVICE_URL=http://localhost:3000
 NOTIFICATION_SERVICE_URL=http://localhost:3000
+
+# ─── Email Service (Resend API — production) ─────────────
+RESEND_API_KEY=re_xxxxx                # API key từ resend.com
+EMAIL_FROM_NAME=QuickStay Hotel        # Tên hiển thị người gửi
 ```
+
+### 📧 Email Service
+
+Hệ thống hỗ trợ **2 phương thức gửi email**, tự động chọn dựa trên biến môi trường:
+
+| Phương thức | Khi nào dùng | Cấu hình |
+|---|---|---|
+| **Resend API** (HTTP) | ✅ Production (Railway, Render...) | `RESEND_API_KEY` |
+| **SMTP** (Nodemailer) | 🖥️ Local development | `EMAIL_HOST`, `EMAIL_USER`, `EMAIL_PASS` |
+
+#### Tại sao dùng Resend thay vì SMTP?
+
+Các nền tảng cloud như **Railway, Render, Heroku** thường **block cổng SMTP** (587, 465) để chống spam. Resend gửi email qua **HTTPS API** (port 443) nên không bị ảnh hưởng.
+
+#### Cấu hình Resend (Production)
+
+1. Đăng ký tại [resend.com](https://resend.com) (miễn phí 100 email/ngày)
+2. Tạo **API Key** → copy `re_xxxxx`
+3. Thêm biến môi trường:
+   ```env
+   RESEND_API_KEY=re_xxxxx
+   EMAIL_FROM_NAME=QuickStay Hotel
+   ```
+4. *(Tùy chọn)* Verify domain riêng trên Resend để email vào Inbox thay vì Spam
+
+> **Lưu ý:** Khi chưa verify domain, Resend dùng `onboarding@resend.dev` làm địa chỉ gửi → email có thể vào thư mục **Spam**. Verify domain riêng sẽ giải quyết vấn đề này.
+
+#### Cấu hình SMTP (Local Development)
+
+```env
+EMAIL_HOST=smtp.gmail.com
+EMAIL_PORT=587
+EMAIL_SECURE=false
+EMAIL_USER=your-email@gmail.com
+EMAIL_PASS=xxxx xxxx xxxx xxxx    # Gmail App Password (16 ký tự)
+EMAIL_FROM_NAME=QuickStay Hotel
+```
+
+> **Gmail App Password:** Bật 2-Step Verification → vào [myaccount.google.com/apppasswords](https://myaccount.google.com/apppasswords) → tạo App Password.
+
+#### Các loại email được gửi
+
+| Sự kiện | Email | Người nhận |
+|---|---|---|
+| Đặt phòng thành công | Xác nhận booking | Guest |
+| Thanh toán Stripe thành công | Xác nhận thanh toán | Guest |
+| Check-out | Email cảm ơn | Guest |
+| Hủy booking + hoàn tiền | Thông báo hoàn tiền | Guest |
 
 ---
 

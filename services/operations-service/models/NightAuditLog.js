@@ -103,6 +103,6 @@ nightAuditLogSchema.index({ hotel: 1, auditDate: -1 });
 nightAuditLogSchema.index({ auditDate: -1 });
 nightAuditLogSchema.index({ status: 1 });
 
-const NightAuditLog = mongoose.model('NightAuditLog', nightAuditLogSchema);
+const NightAuditLog = mongoose.models.NightAuditLog || mongoose.model('NightAuditLog', nightAuditLogSchema);
 
 export default NightAuditLog;

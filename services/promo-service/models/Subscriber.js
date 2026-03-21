@@ -34,6 +34,6 @@ const subscriberSchema = new mongoose.Schema(
 // Index cho truy vấn nhanh theo status (email đã có unique index)
 subscriberSchema.index({ status: 1 });
 
-const Subscriber = mongoose.model('Subscriber', subscriberSchema);
+const Subscriber = mongoose.models.Subscriber || mongoose.model('Subscriber', subscriberSchema);
 
 export default Subscriber;

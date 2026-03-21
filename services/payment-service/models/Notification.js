@@ -52,6 +52,6 @@ notificationSchema.index({ createdAt: 1 }, { expireAfterSeconds: 30 * 24 * 60 * 
 // Composite index cho query phổ biến: lấy notifications chưa đọc theo user
 notificationSchema.index({ receiverId: 1, isRead: 1, createdAt: -1 });
 
-const Notification = mongoose.model('Notification', notificationSchema);
+const Notification = mongoose.models.Notification || mongoose.model('Notification', notificationSchema);
 
 export default Notification;

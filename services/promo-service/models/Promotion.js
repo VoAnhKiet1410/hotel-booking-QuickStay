@@ -40,5 +40,5 @@ promotionSchema.set('toObject', { virtuals: true });
 
 promotionSchema.index({ hotel: 1, isActive: 1, validTo: 1 });
 
-const Promotion = mongoose.model('Promotion', promotionSchema);
+const Promotion = mongoose.models.Promotion || mongoose.model('Promotion', promotionSchema);
 export default Promotion;

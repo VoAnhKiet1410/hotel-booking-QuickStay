@@ -34,6 +34,6 @@ reviewSchema.index({ rating: 1 });
 // Prevent duplicate reviews per booking
 reviewSchema.index({ user: 1, booking: 1 }, { unique: true });
 
-const Review = mongoose.model('Review', reviewSchema);
+const Review = mongoose.models.Review || mongoose.model('Review', reviewSchema);
 
 export default Review;

@@ -17,6 +17,6 @@ const conversationSchema = new mongoose.Schema(
 // Optimize query for finding conversation between 2 particular users
 conversationSchema.index({ participants: 1 });
 
-const Conversation = mongoose.model('Conversation', conversationSchema);
+const Conversation = mongoose.models.Conversation || mongoose.model('Conversation', conversationSchema);
 
 export default Conversation;

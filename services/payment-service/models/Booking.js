@@ -83,6 +83,6 @@ bookingSchema.index({ status: 1 });
 // Index cho getRefundRequests: lọc booking theo hotel + refundRequest.status
 bookingSchema.index({ hotel: 1, 'refundRequest.status': 1 });
 
-const Booking = mongoose.model('Booking', bookingSchema);
+const Booking = mongoose.models.Booking || mongoose.model('Booking', bookingSchema);
 
 export default Booking;

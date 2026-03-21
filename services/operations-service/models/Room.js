@@ -40,6 +40,6 @@ roomSchema.index({ hotel: 1 });
 roomSchema.index({ status: 1, createdAt: -1 });
 roomSchema.index({ pricePerNight: 1 });
 
-const Room = mongoose.model('Room', roomSchema);
+const Room = mongoose.models.Room || mongoose.model('Room', roomSchema);
 
 export default Room;

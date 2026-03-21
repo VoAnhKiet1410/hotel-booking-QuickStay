@@ -25,5 +25,5 @@ const hotelSchema = new mongoose.Schema(
 hotelSchema.index({ city: 1 });
 hotelSchema.index({ owner: 1 }); // NOT unique — one owner can have many hotels
 
-const Hotel = mongoose.model('Hotel', hotelSchema);
+const Hotel = mongoose.models.Hotel || mongoose.model('Hotel', hotelSchema);
 export default Hotel;

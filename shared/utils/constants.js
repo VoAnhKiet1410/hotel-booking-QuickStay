@@ -66,6 +66,9 @@ export const getAuthorizedParties = (clientUrl, isDev = false) => {
         parties.add(clientUrl.trim().replace(/\/+$/, ''));
     }
 
+    // Production Vercel URLs (main + preview deployments)
+    parties.add('https://hotel-booking-quick-stay-chi.vercel.app');
+
     if (isDev) {
         parties.add('http://localhost:5173');
         parties.add('http://localhost:5174');

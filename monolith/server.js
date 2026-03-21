@@ -73,6 +73,20 @@ const io = initSocket(httpServer);
 // Share io với chat-service controllers (monolith dùng chung 1 io instance)
 setChatIo(io);
 
+// ── Health Check (trước mọi middleware) ──────────────────────────
+app.get('/health', (req, res) => {
+    res.json({
+        status: 'ok',
+        service: 'quickstay-monolith',
+        timestamp: new Date().toISOString(),
+    });
+});
+
+// ── Root (trước middleware) ──────────────────────────────────────
+app.get('/', (req, res) => {
+    res.json({ message: 'QuickStay Hotel Booking API' });
+});
+
 // ── CORS ────────────────────────────────────────────────────────
 const allowedOrigins = [
     process.env.CLIENT_URL,
@@ -109,12 +123,17 @@ app.use(
 );
 
 // ── Clerk Middleware ─────────────────────────────────────────────
-app.use(
-    clerkMiddleware({
-        clockSkewInMs:
-            process.env.NODE_ENV !== 'production' ? 300_000 : 30_000,
-    })
-);
+app.use((req, res, next) => {
+    try {
+        clerkMiddleware({
+            clockSkewInMs:
+                process.env.NODE_ENV !== 'production' ? 300_000 : 30_000,
+        })(req, res, next);
+    } catch (err) {
+        console.error('Clerk middleware error:', err.message);
+        next(); // Tiếp tục xử lý dù Clerk lỗi
+    }
+});
 
 // ── Clerk Webhook — RAW body trước JSON parser ───────────────────
 app.post(
@@ -173,20 +192,6 @@ app.use('/internal/booking', bookingInternalRouter);
 
 // Notification internal
 app.use('/internal/notification', notificationInternalRouter);
-
-// ── Health Check ─────────────────────────────────────────────────
-app.get('/health', (req, res) => {
-    res.json({
-        status: 'ok',
-        service: 'quickstay-monolith',
-        timestamp: new Date().toISOString(),
-    });
-});
-
-// ── Root ─────────────────────────────────────────────────────────
-app.get('/', (req, res) => {
-    res.json({ message: 'QuickStay Hotel Booking API' });
-});
 
 // ── 404 ──────────────────────────────────────────────────────────
 app.use((req, res) => {

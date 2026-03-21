@@ -63,9 +63,12 @@ export const ChatSocketProvider = ({ children }) => {
             }
             prevUserRef.current = user.id;
 
-            const socketInstance = io(
-                import.meta.env.VITE_CHAT_URL || 'http://localhost:3006',
-                {
+            const chatURL =
+                import.meta.env.VITE_CHAT_URL ||
+                import.meta.env.VITE_BACKEND_URL ||
+                'http://localhost:3006';
+
+            const socketInstance = io(chatURL, {
                     query: { userId: user.id },
                     reconnection: true,
                     reconnectionAttempts: 10,

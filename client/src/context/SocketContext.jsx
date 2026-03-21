@@ -66,9 +66,12 @@ export const SocketContextProvider = ({ children }) => {
             }
             prevUserRef.current = user.id;
 
-            const socketInstance = io(
-                import.meta.env.VITE_API_URL || 'http://localhost:3005',
-                {
+            const socketURL =
+                import.meta.env.VITE_API_URL ||
+                import.meta.env.VITE_BACKEND_URL ||
+                'http://localhost:3005';
+
+            const socketInstance = io(socketURL, {
                     query: { userId: user.id },
                     reconnection: true,
                     reconnectionAttempts: 10,

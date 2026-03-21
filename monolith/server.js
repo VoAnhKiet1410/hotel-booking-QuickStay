@@ -43,6 +43,7 @@ import paymentRouter from '../services/payment-service/routes/paymentRoutes.js';
 // ── Notification Service ────────────────────────────────────────
 import { initSocket } from '../services/notification-service/configs/socket.js';
 import { initEmailService } from '../services/notification-service/configs/email.js';
+import { setIo as setChatIo } from '../services/chat-service/configs/chatSocket.js';
 import notificationRouter from '../services/notification-service/routes/notificationRoutes.js';
 import notificationInternalRouter from '../services/notification-service/routes/internalRoutes.js';
 
@@ -68,7 +69,9 @@ const httpServer = createServer(app);
 const PORT = process.env.PORT || 3000;
 
 // ── Socket.IO (notification-service) ───────────────────────────
-initSocket(httpServer);
+const io = initSocket(httpServer);
+// Share io với chat-service controllers (monolith dùng chung 1 io instance)
+setChatIo(io);
 
 // ── CORS ────────────────────────────────────────────────────────
 const allowedOrigins = [

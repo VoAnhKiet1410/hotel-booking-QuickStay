@@ -85,18 +85,26 @@ const Bookings = () => {
     }
 
     const handleCheckOut = async (bookingId) => {
-        if (!axios) return
+        console.log('=== handleCheckOut CALLED ===', bookingId)
+        if (!axios) {
+            console.log('axios is null/undefined!')
+            return
+        }
         const confirmed = window.confirm('Xác nhận trả phòng? Nếu khách chưa thanh toán, hệ thống sẽ tự động đánh dấu đã thanh toán.')
+        console.log('User confirmed:', confirmed)
         if (!confirmed) return
 
         setUpdatingIds(prev => ({ ...prev, [bookingId]: true }))
         try {
+            console.log('Calling API: PATCH /api/bookings/owner/' + bookingId + '/check-out')
             const { data } = await axios.patch(`/api/bookings/owner/${bookingId}/check-out`)
+            console.log('API response:', data)
             if (data?.success) {
                 setBookings(prev => prev.map(b => b._id === bookingId ? data.data : b))
                 toast.success('Trả phòng thành công!')
             }
         } catch (error) {
+            console.error('Check-out error:', error?.response?.data || error.message)
             toast.error(error?.response?.data?.message || 'Không thể trả phòng')
         } finally {
             setUpdatingIds(prev => { const n = { ...prev }; delete n[bookingId]; return n })
@@ -258,7 +266,10 @@ const Bookings = () => {
                                     {canCheckOut && !isCancelled && (
                                         <button
                                             disabled={isUpdating}
-                                            onClick={() => handleCheckOut(booking._id)}
+                                            onClick={() => {
+                                                console.log('>>> Trả phòng button clicked!', booking._id, 'status:', booking.status)
+                                                handleCheckOut(booking._id)
+                                            }}
                                             className="inline-flex items-center gap-1 rounded-lg bg-emerald-100 px-2.5 py-1.5 text-xs font-medium text-emerald-700 hover:bg-emerald-200 disabled:opacity-50 disabled:cursor-not-allowed transition-all"
                                         >
                                             <LogOut className="h-3 w-3" />

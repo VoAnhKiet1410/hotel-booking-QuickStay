@@ -25,6 +25,22 @@ RUN cd services/operations-service && npm ci --only=production
 # Install monolith dependencies (top-level packages)
 RUN cd monolith && npm ci --only=production --legacy-peer-deps
 
+# ── CRITICAL: Đảm bảo tất cả services dùng cùng 1 mongoose instance ──
+# Mỗi service có node_modules/mongoose riêng → khi monolith connect mongoose,
+# chỉ instance của monolith được connect. Services' models dùng instance khác
+# (chưa connect) → gây "buffering timed out".
+# Fix: Thay mongoose của mỗi service bằng symlink đến monolith's mongoose.
+RUN for dir in services/*/node_modules/mongoose; do \
+      if [ -d "$dir" ]; then \
+        rm -rf "$dir" && \
+        ln -s /app/monolith/node_modules/mongoose "$dir"; \
+      fi; \
+    done && \
+    if [ -d "shared/node_modules/mongoose" ]; then \
+      rm -rf shared/node_modules/mongoose && \
+      ln -s /app/monolith/node_modules/mongoose shared/node_modules/mongoose; \
+    fi
+
 EXPOSE 3000
 
 CMD ["node", "monolith/server.js"]

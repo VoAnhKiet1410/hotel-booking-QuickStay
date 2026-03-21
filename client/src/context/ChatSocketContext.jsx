@@ -70,6 +70,7 @@ export const ChatSocketProvider = ({ children }) => {
 
             const socketInstance = io(chatURL, {
                     query: { userId: user.id },
+                    transports: ['websocket'],
                     reconnection: true,
                     reconnectionAttempts: 10,
                     reconnectionDelay: 1000,

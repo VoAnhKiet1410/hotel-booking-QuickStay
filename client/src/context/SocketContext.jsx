@@ -73,6 +73,7 @@ export const SocketContextProvider = ({ children }) => {
 
             const socketInstance = io(socketURL, {
                     query: { userId: user.id },
+                    transports: ['websocket'],
                     reconnection: true,
                     reconnectionAttempts: 10,
                     reconnectionDelay: 1000,

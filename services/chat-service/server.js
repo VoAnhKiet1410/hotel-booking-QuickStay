@@ -10,6 +10,13 @@ import mongoose from 'mongoose';
 import { createServer } from 'http';
 import { Server } from 'socket.io';
 import chatRouter from './routes/chatRoutes.js';
+import {
+    setIo,
+    getReceiverSocketId,
+    registerUser,
+    unregisterUser,
+    getOnlineUserIds,
+} from './configs/chatSocket.js';
 
 const app = express();
 const httpServer = createServer(app);
@@ -29,15 +36,16 @@ const io = new Server(httpServer, {
     },
 });
 
-const userSocketMap = {};
+// Lưu io vào chatSocket module để controllers dùng (tránh circular dep)
+setIo(io);
 
 io.on('connection', (socket) => {
     const userId = socket.handshake.query.userId;
     if (userId && userId !== 'undefined') {
-        userSocketMap[userId] = socket.id;
+        registerUser(userId, socket.id);
     }
 
-    io.emit('getOnlineUsers', Object.keys(userSocketMap));
+    io.emit('getOnlineUsers', getOnlineUserIds());
 
     socket.on('joinConversation', (conversationId) => {
         if (conversationId) socket.join(`conv_${conversationId}`);
@@ -48,7 +56,7 @@ io.on('connection', (socket) => {
     });
 
     socket.on('typing', ({ conversationId, receiverId }) => {
-        const receiverSocketId = userSocketMap[receiverId];
+        const receiverSocketId = getReceiverSocketId(receiverId);
         if (receiverSocketId) {
             io.to(receiverSocketId).emit('typing', {
                 conversationId,
@@ -58,7 +66,7 @@ io.on('connection', (socket) => {
     });
 
     socket.on('stopTyping', ({ conversationId, receiverId }) => {
-        const receiverSocketId = userSocketMap[receiverId];
+        const receiverSocketId = getReceiverSocketId(receiverId);
         if (receiverSocketId) {
             io.to(receiverSocketId).emit('stopTyping', {
                 conversationId,
@@ -69,15 +77,11 @@ io.on('connection', (socket) => {
 
     socket.on('disconnect', () => {
         if (userId) {
-            delete userSocketMap[userId];
-            io.emit('getOnlineUsers', Object.keys(userSocketMap));
+            unregisterUser(userId);
+            io.emit('getOnlineUsers', getOnlineUserIds());
         }
     });
 });
-
-// Export io cho controllers sử dụng
-export const getIo = () => io;
-export const getReceiverSocketId = (receiverId) => userSocketMap[receiverId];
 
 app.use(cors({ origin: true, credentials: true }));
 app.use(express.json());

@@ -1,6 +1,6 @@
 import Conversation from '../models/Conversation.js';
 import Message from '../models/Message.js';
-import { getIo, getReceiverSocketId } from '../server.js';
+import { getIo, getReceiverSocketId } from '../configs/chatSocket.js';
 
 // @desc    Lấy hoặc tạo mới cuộc rò chuyện (Conversation) giữa 2 user
 // @route   POST /api/conversations

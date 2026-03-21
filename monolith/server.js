@@ -83,8 +83,14 @@ const allowedOrigins = [
 app.use(
     cors({
         origin: (origin, callback) => {
+            // Cho phép server-to-server (không có origin)
             if (!origin) return callback(null, true);
+            // Cho phép các origins đã cấu hình
             if (allowedOrigins.includes(origin)) return callback(null, true);
+            // Cho phép tất cả Vercel preview/production URLs
+            if (origin.endsWith('.vercel.app')) return callback(null, true);
+            // Cho phép Railway URLs (internal calls)
+            if (origin.endsWith('.railway.app')) return callback(null, true);
             return callback(new Error('Not allowed by CORS'));
         },
         credentials: true,

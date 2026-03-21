@@ -200,8 +200,16 @@ app.use((req, res) => {
 
 // ── Global Error Handler ─────────────────────────────────────────
 app.use((err, req, res, next) => {
-    console.error('Server error:', err);
-    res.status(500).json({ success: false, message: 'Server error' });
+    console.error('=== SERVER ERROR ===');
+    console.error('Path:', req.method, req.originalUrl);
+    console.error('Message:', err.message);
+    console.error('Stack:', err.stack);
+    console.error('===================');
+    res.status(500).json({
+        success: false,
+        message: 'Server error',
+        error: process.env.NODE_ENV !== 'production' ? err.message : undefined,
+    });
 });
 
 // ── Start ────────────────────────────────────────────────────────

@@ -21,6 +21,7 @@ const notificationSchema = new mongoose.Schema(
                 'new_message',
                 // Guest nhận
                 'booking_pending',            // vừa tạo booking
+                'booking_awaiting_payment',   // chờ thanh toán Stripe
                 'booking_confirmed',
                 'booking_checked_in',
                 'booking_completed',

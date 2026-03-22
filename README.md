@@ -188,62 +188,396 @@
 
 ```
 hotel-booking/
-├── client/                          # 🖥️ React Frontend (Vite + Tailwind)
-│   ├── src/
-│   │   ├── assets/                  # Hình ảnh, icons, dữ liệu tĩnh
-│   │   ├── components/              # UI components tái sử dụng
-│   │   │   ├── hotelOwner/          # Components dành cho Owner Dashboard
-│   │   │   ├── Hero.jsx             # Trang chủ hero + search
-│   │   │   ├── Navbar.jsx           # Navigation + mobile drawer
-│   │   │   ├── ChatModal.jsx        # Chat real-time
-│   │   │   ├── NotificationDropdown.jsx
-│   │   │   └── ...
-│   │   ├── context/                 # React Context providers
-│   │   │   ├── AppContext.jsx       # Global state (user, hotels, axios)
-│   │   │   ├── SocketContext.jsx    # Notification socket
-│   │   │   └── ChatSocketContext.jsx
-│   │   ├── pages/                   # Route pages
-│   │   │   ├── hotelOwner/          # Owner dashboard pages
-│   │   │   │   ├── Dashboard.jsx
-│   │   │   │   ├── NightAudit.jsx
-│   │   │   │   ├── CheckInOut.jsx
-│   │   │   │   ├── HousekeepingBoard.jsx
-│   │   │   │   └── ...
-│   │   │   ├── Home.jsx
-│   │   │   ├── AllRooms.jsx         # Tìm kiếm & danh sách phòng
-│   │   │   ├── RoomDetails.jsx
-│   │   │   ├── MyBookings.jsx
-│   │   │   └── ...
-│   │   └── App.jsx                  # Root component + routing
+│
+├── 📂 client/                                    # 🖥️ React Frontend (Vite + Tailwind)
+│   ├── index.html                                # Entry HTML
+│   ├── vite.config.js                            # Vite configuration
+│   ├── eslint.config.js                          # ESLint config
+│   ├── vercel.json                               # Vercel deploy settings
+│   ├── Dockerfile                                # Docker build cho frontend
+│   ├── package.json
+│   │
+│   ├── 📂 public/                                # Static assets (favicon, robots.txt)
+│   │
+│   └── 📂 src/                                   # Source code chính
+│       ├── main.jsx                              # Entry point — render App + providers
+│       ├── App.jsx                               # Root component + React Router routing
+│       ├── index.css                             # Global CSS + Tailwind directives
+│       │
+│       ├── 📂 assets/                            # Tài nguyên tĩnh
+│       │   ├── assets.js                         # Export tập trung tất cả assets
+│       │   ├── logo.svg                          # Logo QuickStay
+│       │   ├── favicon.svg                       # Favicon
+│       │   ├── heroImage.png                     # Hero banner trang chủ
+│       │   ├── regImage.png                      # Ảnh đăng ký khách sạn
+│       │   ├── roomImg[1-7].(png|jpg)            # Ảnh mẫu phòng
+│       │   ├── exclusiveOfferCardImg[1-3].png    # Ảnh ưu đãi đặc biệt
+│       │   ├── about_*.png                       # Ảnh trang About Us
+│       │   ├── exp_*.png                         # Ảnh trang Experiences
+│       │   ├── *Icon.svg                         # Bộ icon SVG (30+)
+│       │   └── (social icons).svg                # Facebook, Instagram, LinkedIn, Twitter
+│       │
+│       ├── 📂 components/                        # UI Components tái sử dụng
+│       │   │
+│       │   │── ── 🧩 Layout & Navigation ── ──
+│       │   ├── Navbar.jsx                        # Header — nav links, auth, mobile drawer
+│       │   ├── Footer.jsx                        # Footer — links, social, newsletter
+│       │   ├── SmoothScroll.jsx                  # Lenis smooth scroll wrapper
+│       │   ├── ErrorBoundary.jsx                 # React Error Boundary fallback
+│       │   │
+│       │   │── ── 🏠 Homepage Sections ── ──
+│       │   ├── Hero.jsx                          # Hero banner + search form (city, date, guests)
+│       │   ├── FeaturedDestination.jsx           # Điểm đến nổi bật (HCM, Đà Nẵng, Hà Nội, Đà Lạt)
+│       │   ├── ExclusiveOffers.jsx               # Ưu đãi đặc biệt + GSAP animations
+│       │   ├── Testimonial.jsx                   # Đánh giá khách hàng
+│       │   ├── WhyChooseUs.jsx                   # Lý do chọn QuickStay
+│       │   ├── NewsLetter.jsx                    # Đăng ký nhận tin khuyến mãi
+│       │   ├── Title.jsx                         # Section title component
+│       │   │
+│       │   │── ── 🏨 Hotel & Room ── ──
+│       │   ├── HotelCard.jsx                     # Card hiển thị thông tin khách sạn
+│       │   ├── RoomCard.jsx                      # Card hiển thị thông tin phòng
+│       │   ├── HotelReg.jsx                      # Form đăng ký làm chủ khách sạn
+│       │   ├── ReviewSection.jsx                 # Phần đánh giá & review chi tiết
+│       │   │
+│       │   │── ── 💬 Real-time Features ── ──
+│       │   ├── ChatModal.jsx                     # Modal chat real-time (Socket.IO)
+│       │   ├── NotificationDropdown.jsx          # Dropdown thông báo tức thời
+│       │   ├── MessageDropdown.jsx               # Dropdown tin nhắn mới
+│       │   │
+│       │   │── ── 🔧 Utility Components ── ──
+│       │   ├── ConfirmModal.jsx                  # Modal xác nhận hành động
+│       │   ├── RefundModal.jsx                   # Modal yêu cầu hoàn tiền
+│       │   ├── Skeleton.jsx                      # Loading skeleton placeholders
+│       │   │
+│       │   │── ── 📧 Email Templates ── ──
+│       │   └── 📂 EmailTemplates/                # React email templates (preview)
+│       │       ├── index.js                      # Export tập trung
+│       │       ├── BookingConfirmationEmail.jsx  # Template email xác nhận booking
+│       │       ├── PaymentSuccessEmail.jsx       # Template email thanh toán thành công
+│       │       └── BookingCancelledEmail.jsx     # Template email hủy booking
+│       │   │
+│       │   └── 📂 hotelOwner/                    # Components dành riêng cho Owner
+│       │       ├── Navbar.jsx                    # Owner dashboard navbar
+│       │       └── Sidebar.jsx                   # Owner dashboard sidebar navigation
+│       │
+│       ├── 📂 context/                           # React Context — State Management
+│       │   ├── AppContext.jsx                    # Global context (user, hotels, axios instance)
+│       │   ├── appContextCore.js                 # Core logic tách biệt cho AppContext
+│       │   ├── SocketContext.jsx                 # Socket.IO cho notifications
+│       │   ├── socketCore.js                     # Core logic cho SocketContext
+│       │   ├── ChatSocketContext.jsx             # Socket.IO cho chat real-time
+│       │   └── chatSocketCore.js                 # Core logic cho ChatSocketContext
+│       │
+│       ├── 📂 hooks/                             # Custom React Hooks
+│       │   └── useScrollReveal.js                # Hook GSAP scroll reveal animations
+│       │
+│       ├── 📂 pages/                             # Route Pages — Trang chính
+│       │   │
+│       │   │── ── 👤 Guest Pages ── ──
+│       │   ├── Home.jsx                          # Trang chủ (Hero + sections)
+│       │   ├── AllRooms.jsx                      # Tìm kiếm & danh sách phòng + filters
+│       │   ├── RoomDetails.jsx                   # Chi tiết phòng + đặt phòng + đánh giá
+│       │   ├── HotelDetails.jsx                  # Chi tiết khách sạn + danh sách phòng
+│       │   ├── MyBookings.jsx                    # Danh sách booking của khách
+│       │   ├── BookingDetail.jsx                 # Chi tiết 1 booking + Guest Folio
+│       │   ├── BookingSuccess.jsx                # Trang xác nhận đặt phòng thành công
+│       │   ├── AllPromotions.jsx                 # Danh sách khuyến mãi
+│       │   ├── PromotionDetails.jsx              # Chi tiết khuyến mãi
+│       │   ├── AboutUs.jsx                       # Trang giới thiệu QuickStay
+│       │   ├── Experiences.jsx                   # Trang trải nghiệm du lịch
+│       │   │
+│       │   │── ── 📧 Dev Tools ── ──
+│       │   ├── 📂 EmailPreview/                  # Preview email templates (dev only)
+│       │   │   └── EmailPreview.jsx              # Render preview email templates
+│       │   │
+│       │   │── ── 🏢 Hotel Owner Pages ── ──
+│       │   └── 📂 hotelOwner/                    # Owner Dashboard (15 pages)
+│       │       ├── Layout.jsx                    # Dashboard layout wrapper (Sidebar + Navbar)
+│       │       ├── Dashboard.jsx                 # 📊 Tổng quan — KPIs, biểu đồ, thống kê
+│       │       ├── HotelInfo.jsx                 # 🏨 Thông tin khách sạn — xem/chỉnh sửa
+│       │       ├── ListRoom.jsx                  # 🛏️ Danh sách phòng — bảng + filters
+│       │       ├── AddRoom.jsx                   # ➕ Thêm phòng mới — form + upload ảnh
+│       │       ├── EditRoom.jsx                  # ✏️ Chỉnh sửa phòng
+│       │       ├── Bookings.jsx                  # 📅 Quản lý booking — table + actions
+│       │       ├── CheckInOut.jsx                # 🔑 Check-in/Check-out thủ công
+│       │       ├── OccupancyCalendar.jsx         # 📆 Lịch chiếm dụng phòng theo tháng
+│       │       ├── HousekeepingBoard.jsx         # 🧹 Bảng theo dõi dọn phòng
+│       │       ├── NightAudit.jsx                # 🌙 Báo cáo Night Audit chuẩn OTA
+│       │       ├── RevenueManagement.jsx         # 📈 Biểu đồ & báo cáo doanh thu
+│       │       ├── ManagePromotions.jsx          # 🎫 CRUD mã khuyến mãi
+│       │       ├── RefundRequests.jsx            # 💸 Xử lý yêu cầu hoàn tiền
+│       │       └── OwnerInbox.jsx                # 📨 Hộp thư chat với khách hàng
+│       │
+│       └── 📂 utils/                            # Utility functions
+│           ├── constants.js                      # Hằng số (cities, amenities, room types)
+│           ├── formatters.js                     # Format tiền tệ, ngày tháng, text
+│           ├── formatters.test.js                # Unit tests cho formatters
+│           ├── roomFilters.js                    # Logic lọc & sắp xếp phòng
+│           └── roomFilters.test.js               # Unit tests cho roomFilters
+│
+├── 📂 gateway/                                   # 🚪 API Gateway (Local Development)
+│   ├── gateway.js                                # Express reverse proxy — route → services
+│   ├── Dockerfile                                # Docker build
 │   └── package.json
 │
-├── gateway/                         # 🚪 API Gateway (local dev)
-│   ├── gateway.js                   # Express reverse proxy
+├── 📂 monolith/                                  # 🧩 Monolith Server (Production Deploy)
+│   ├── server.js                                 # Entry point — gộp tất cả 9 services vào 1 process
+│   ├── Dockerfile                                # Multi-stage Docker build cho Railway/Render
 │   └── package.json
 │
-├── monolith/                        # 🧩 Monolith Server (production deploy)
-│   ├── server.js                    # Entry point — gộp tất cả 9 services
-│   ├── Dockerfile                   # Docker build cho Railway/Render
-│   └── package.json
+├── 📂 services/                                  # ⚙️ Backend Microservices (9 services)
+│   │
+│   ├── 📂 auth-service/                          # 🔐 Authentication & User Management [:3001]
+│   │   ├── server.js                             # Entry point + MongoDB connection
+│   │   ├── 📂 controllers/
+│   │   │   ├── clerkWebhooks.js                  # Xử lý Clerk webhook (user.created, user.updated)
+│   │   │   └── userController.js                 # CRUD user, get user profile
+│   │   ├── 📂 middleware/
+│   │   │   └── authMiddleware.js                 # Clerk auth + JWT verification
+│   │   ├── 📂 models/
+│   │   │   └── User.js                           # User schema (clerkId, email, role, imageUrl)
+│   │   ├── 📂 routes/
+│   │   │   ├── userRoutes.js                     # /api/user — profile, update
+│   │   │   └── adminRoutes.js                    # /api/admin — admin-only operations
+│   │   └── package.json
+│   │
+│   ├── 📂 hotel-service/                         # 🏨 Hotel & Room Management [:3002]
+│   │   ├── server.js                             # Entry point + MongoDB connection
+│   │   ├── 📂 configs/
+│   │   │   └── cloudinary.js                     # Cloudinary SDK configuration
+│   │   ├── 📂 controllers/
+│   │   │   ├── hotelController.js                # CRUD hotel, search, get by owner
+│   │   │   ├── roomController.js                 # CRUD room, upload images, availability
+│   │   │   └── housekeepingController.js         # Quản lý trạng thái dọn phòng
+│   │   ├── 📂 middleware/
+│   │   │   ├── authMiddleware.js                 # Clerk auth verification
+│   │   │   └── ownerMiddleware.js                # Verify hotel ownership
+│   │   ├── 📂 models/
+│   │   │   ├── Hotel.js                          # Hotel schema (name, city, amenities, owner)
+│   │   │   ├── Room.js                           # Room schema (type, price, images, capacity)
+│   │   │   ├── Booking.js                        # Booking reference (for availability check)
+│   │   │   └── User.js                           # User reference
+│   │   ├── 📂 routes/
+│   │   │   ├── hotelRoutes.js                    # /api/hotels — public + owner CRUD
+│   │   │   ├── roomRoutes.js                     # /api/rooms — public + owner CRUD
+│   │   │   ├── housekeepingRoutes.js             # /api/housekeeping — status updates
+│   │   │   └── internalRoutes.js                 # Inter-service communication
+│   │   ├── 📂 utils/
+│   │   │   └── cloudinaryUtils.js                # Upload/delete helpers cho Cloudinary
+│   │   └── package.json
+│   │
+│   ├── 📂 booking-service/                       # 📅 Booking & Check-in/out [:3003]
+│   │   ├── server.js                             # Entry point + MongoDB connection
+│   │   ├── 📂 configs/
+│   │   │   └── stripe.js                         # Stripe SDK initialization
+│   │   ├── 📂 controllers/
+│   │   │   ├── bookingController.js              # Core booking logic (create, update, cancel)
+│   │   │   ├── bookingHelpers.js                 # Helper functions cho booking operations
+│   │   │   ├── guestBookingController.js         # Guest-facing booking actions
+│   │   │   ├── guestFolioController.js           # Guest Folio — chi tiết hóa đơn lưu trú
+│   │   │   ├── ownerBookingController.js         # Owner-facing booking management
+│   │   │   ├── checkInOutController.js           # Check-in/Check-out operations
+│   │   │   └── refundController.js               # Xử lý hoàn tiền (tiered refund policy)
+│   │   ├── 📂 middleware/
+│   │   │   ├── authMiddleware.js                 # Clerk auth verification
+│   │   │   └── ownerMiddleware.js                # Verify hotel ownership
+│   │   ├── 📂 models/
+│   │   │   ├── Booking.js                        # Booking schema (guest, room, dates, status, payment)
+│   │   │   ├── Room.js                           # Room reference
+│   │   │   ├── Hotel.js                          # Hotel reference
+│   │   │   ├── User.js                           # User reference
+│   │   │   ├── Coupon.js                         # Coupon reference (để validate)
+│   │   │   ├── Promotion.js                      # Promotion reference
+│   │   │   └── Notification.js                   # Notification reference
+│   │   ├── 📂 routes/
+│   │   │   ├── bookingRoutes.js                  # /api/bookings — CRUD + check-in/out + refund
+│   │   │   └── internalRoutes.js                 # Inter-service: availability queries
+│   │   ├── 📂 utils/
+│   │   │   ├── dateUtils.js                      # Date calculation helpers
+│   │   │   ├── emailHelper.js                    # Gửi email (Resend API / SMTP fallback)
+│   │   │   ├── emailTemplates.js                 # HTML email templates
+│   │   │   ├── emitNotification.js               # Emit socket notification + save to DB
+│   │   │   └── revenueUtils.js                   # Tính doanh thu, thống kê
+│   │   └── package.json
+│   │
+│   ├── 📂 payment-service/                       # 💳 Payment & Stripe Integration [:3004]
+│   │   ├── server.js                             # Entry point + MongoDB connection
+│   │   ├── 📂 configs/
+│   │   │   └── stripe.js                         # Stripe SDK configuration
+│   │   ├── 📂 controllers/
+│   │   │   └── paymentController.js              # Stripe Checkout, webhook handler, refund
+│   │   ├── 📂 middleware/
+│   │   │   └── authMiddleware.js                 # Clerk auth verification
+│   │   ├── 📂 models/
+│   │   │   ├── Booking.js                        # Booking reference (update payment status)
+│   │   │   ├── Room.js                           # Room reference (get price)
+│   │   │   ├── Hotel.js                          # Hotel reference
+│   │   │   ├── User.js                           # User reference
+│   │   │   └── Notification.js                   # Notification reference
+│   │   ├── 📂 routes/
+│   │   │   └── paymentRoutes.js                  # /api/payments — checkout, webhook, refund
+│   │   ├── 📂 utils/
+│   │   │   ├── dateUtils.js                      # Date helpers
+│   │   │   ├── emailHelper.js                    # Gửi email (Resend / SMTP)
+│   │   │   ├── emailTemplates.js                 # HTML email templates
+│   │   │   └── emitNotification.js               # Emit socket notification
+│   │   └── package.json
+│   │
+│   ├── 📂 notification-service/                  # 🔔 Notifications & Email [:3005]
+│   │   ├── server.js                             # Entry point + Socket.IO server
+│   │   ├── 📂 configs/
+│   │   │   ├── socket.js                         # Socket.IO initialization + event handlers
+│   │   │   └── email.js                          # Email transporter (Resend / Nodemailer)
+│   │   ├── 📂 controllers/
+│   │   │   └── notificationController.js         # CRUD notifications, mark read, delete
+│   │   ├── 📂 middleware/
+│   │   │   └── authMiddleware.js                 # Clerk auth verification
+│   │   ├── 📂 models/
+│   │   │   ├── Notification.js                   # Notification schema (type, message, isRead)
+│   │   │   └── User.js                           # User reference
+│   │   ├── 📂 routes/
+│   │   │   ├── notificationRoutes.js             # /api/notifications — get, read, delete
+│   │   │   └── internalRoutes.js                 # Inter-service: emit notification
+│   │   ├── 📂 utils/
+│   │   │   ├── emailTemplates.js                 # HTML email templates
+│   │   │   └── emitNotification.js               # Core emit logic + socket broadcast
+│   │   └── package.json
+│   │
+│   ├── 📂 chat-service/                          # 💬 Real-time Chat [:3006]
+│   │   ├── server.js                             # Entry point + Socket.IO server
+│   │   ├── 📂 configs/
+│   │   │   └── chatSocket.js                     # Chat Socket.IO events (join, send, typing)
+│   │   ├── 📂 controllers/
+│   │   │   └── chatController.js                 # Conversations & messages CRUD
+│   │   ├── 📂 middleware/
+│   │   │   └── authMiddleware.js                 # Clerk auth verification
+│   │   ├── 📂 models/
+│   │   │   ├── Conversation.js                   # Conversation schema (participants, hotel)
+│   │   │   ├── Message.js                        # Message schema (sender, content, timestamp)
+│   │   │   └── User.js                           # User reference
+│   │   ├── 📂 routes/
+│   │   │   └── chatRoutes.js                     # /api/chat — conversations, messages
+│   │   └── package.json
+│   │
+│   ├── 📂 review-service/                        # ⭐ Reviews & Ratings [:3007]
+│   │   ├── server.js                             # Entry point + MongoDB connection
+│   │   ├── 📂 controllers/
+│   │   │   └── reviewController.js               # CRUD reviews, tính trung bình rating
+│   │   ├── 📂 middleware/
+│   │   │   └── authMiddleware.js                 # Clerk auth verification
+│   │   ├── 📂 models/
+│   │   │   ├── Review.js                         # Review schema (rating, comment, guest, room)
+│   │   │   ├── Booking.js                        # Booking reference (verify checkout status)
+│   │   │   ├── Hotel.js                          # Hotel reference (update avg rating)
+│   │   │   ├── Room.js                           # Room reference
+│   │   │   └── User.js                           # User reference
+│   │   ├── 📂 routes/
+│   │   │   └── reviewRoutes.js                   # /api/reviews — CRUD + get by room/hotel
+│   │   └── package.json
+│   │
+│   ├── 📂 promo-service/                         # 🎁 Promotions & Coupons [:3008]
+│   │   ├── server.js                             # Entry point + MongoDB connection
+│   │   ├── 📂 configs/
+│   │   │   └── email.js                          # Email transporter configuration
+│   │   ├── 📂 controllers/
+│   │   │   ├── promotionController.js            # CRUD promotions, generate coupons
+│   │   │   └── subscriberController.js           # Newsletter subscriber management
+│   │   ├── 📂 middleware/
+│   │   │   ├── authMiddleware.js                 # Clerk auth verification
+│   │   │   └── ownerMiddleware.js                # Verify hotel ownership
+│   │   ├── 📂 models/
+│   │   │   ├── Promotion.js                      # Promotion schema (title, discount, dates)
+│   │   │   ├── Coupon.js                         # Coupon schema (code, value, usage limit)
+│   │   │   ├── Subscriber.js                     # Email subscriber schema
+│   │   │   ├── Hotel.js                          # Hotel reference
+│   │   │   ├── Room.js                           # Room reference
+│   │   │   └── User.js                           # User reference
+│   │   ├── 📂 routes/
+│   │   │   ├── promotionRoutes.js                # /api/promotions — CRUD + public listing
+│   │   │   ├── subscriberRoutes.js               # /api/subscribers — subscribe/unsubscribe
+│   │   │   └── internalRoutes.js                 # Inter-service: validate coupon
+│   │   └── package.json
+│   │
+│   └── 📂 operations-service/                    # 🌙 Operations & Night Audit [:3009]
+│       ├── server.js                             # Entry point + MongoDB connection + cron init
+│       ├── 📂 configs/
+│       │   └── email.js                          # Email transporter configuration
+│       ├── 📂 controllers/
+│       │   ├── nightAuditController.js           # Night Audit: chạy audit, xem log, báo cáo
+│       │   └── revenueController.js              # Revenue reports: daily, monthly, yearly
+│       ├── 📂 jobs/                              # ⏰ Scheduled Jobs (Node-cron)
+│       │   ├── nightAuditJob.js                  # Cron: tự động chạy Night Audit lúc 2:00 AM
+│       │   └── reminderJob.js                    # Cron: nhắc nhở check-in/out sắp tới
+│       ├── 📂 middleware/
+│       │   ├── authMiddleware.js                 # Clerk auth verification
+│       │   └── ownerMiddleware.js                # Verify hotel ownership
+│       ├── 📂 models/
+│       │   ├── NightAuditLog.js                  # Night Audit log schema (date, metrics, rooms)
+│       │   ├── Booking.js                        # Booking reference
+│       │   ├── Hotel.js                          # Hotel reference
+│       │   ├── Room.js                           # Room reference
+│       │   ├── Notification.js                   # Notification reference
+│       │   └── User.js                           # User reference
+│       ├── 📂 routes/
+│       │   ├── nightAuditRoutes.js               # /api/night-audit — run, get logs, report
+│       │   └── revenueRoutes.js                  # /api/revenue — daily, monthly charts
+│       ├── 📂 utils/
+│       │   ├── emailHelper.js                    # Gửi email
+│       │   ├── emailTemplates.js                 # HTML email templates
+│       │   ├── emitNotification.js               # Emit socket notification
+│       │   └── revenueUtils.js                   # Revenue calculation logic
+│       └── package.json
 │
-├── services/                        # ⚙️ Backend Microservices
-│   ├── auth-service/                # 🔐 Xác thực, user, Clerk webhooks
-│   ├── hotel-service/               # 🏨 Hotel, Room, Housekeeping, Cloudinary
-│   ├── booking-service/             # 📅 Booking, availability check
-│   ├── payment-service/             # 💳 Stripe checkout, refund, webhook
-│   ├── notification-service/        # 🔔 Socket.IO real-time + email
-│   ├── chat-service/                # 💬 Chat real-time giữa guest & owner
-│   ├── review-service/              # ⭐ Đánh giá, xếp hạng
-│   ├── promo-service/               # 🎁 Coupon, khuyến mãi, subscribers
-│   └── operations-service/          # 🌙 Night Audit, Revenue, Cron Jobs
+├── 📂 shared/                                    # 📦 Shared Utilities (dùng chung cho services)
+│   ├── index.js                                  # Entry point — re-export tất cả modules
+│   ├── package.json
+│   ├── 📂 middleware/
+│   │   └── authMiddleware.js                     # Clerk + JWT auth middleware dùng chung
+│   └── 📂 utils/
+│       ├── serviceClient.js                      # Axios client factory (inter-service calls)
+│       ├── constants.js                          # Shared constants (booking statuses, roles)
+│       ├── dateUtils.js                          # Date utility functions dùng chung
+│       └── emailHelper.js                        # Email helper (Resend / SMTP) dùng chung
 │
-├── shared/                          # 📦 Shared utilities
-│   ├── middleware/authMiddleware.js  # Clerk auth middleware dùng chung
-│   └── utils/serviceClient.js       # Axios client factory cho inter-service calls
-│
-├── docker-compose.dev.yml           # 🐳 Docker Compose cho local dev
-├── start-all.ps1                    # ▶️  Khởi động tất cả services (Windows)
-└── .gitignore
+├── docker-compose.dev.yml                        # 🐳 Docker Compose — chạy toàn bộ services
+├── start-all.ps1                                 # ▶️ PowerShell script — khởi động tất cả services
+├── .gitignore                                    # Git ignore rules
+└── README.md                                     # 📖 Tài liệu dự án (file này)
+```
+
+### 📊 Tổng Quan Kiến Trúc Service
+
+| Service | Port | Chức năng chính | Models | Routes |
+|---------|------|-----------------|--------|--------|
+| **auth-service** | 3001 | Xác thực Clerk, quản lý user, webhooks | `User` | `/api/user`, `/api/admin` |
+| **hotel-service** | 3002 | CRUD hotel/room, upload ảnh, housekeeping | `Hotel`, `Room`, `Booking`, `User` | `/api/hotels`, `/api/rooms`, `/api/housekeeping` |
+| **booking-service** | 3003 | Đặt phòng, check-in/out, hoàn tiền, Guest Folio | `Booking`, `Room`, `Hotel`, `User`, `Coupon`, `Promotion`, `Notification` | `/api/bookings` |
+| **payment-service** | 3004 | Stripe Checkout, webhook, xử lý thanh toán | `Booking`, `Room`, `Hotel`, `User`, `Notification` | `/api/payments` |
+| **notification-service** | 3005 | Socket.IO real-time, email, CRUD notifications | `Notification`, `User` | `/api/notifications` |
+| **chat-service** | 3006 | Chat real-time giữa guest & owner | `Conversation`, `Message`, `User` | `/api/chat` |
+| **review-service** | 3007 | Đánh giá, xếp hạng, tính trung bình rating | `Review`, `Booking`, `Hotel`, `Room`, `User` | `/api/reviews` |
+| **promo-service** | 3008 | Khuyến mãi, coupon, newsletter subscribers | `Promotion`, `Coupon`, `Subscriber`, `Hotel`, `Room`, `User` | `/api/promotions`, `/api/subscribers` |
+| **operations-service** | 3009 | Night Audit (2AM cron), revenue reports, reminders | `NightAuditLog`, `Booking`, `Hotel`, `Room`, `Notification`, `User` | `/api/night-audit`, `/api/revenue` |
+
+### 🗂️ Quy Ước Thiết Kế
+
+Mỗi microservice đều tuân theo cấu trúc thống nhất:
+
+```
+service-name/
+├── server.js              # Entry point, MongoDB connect, Express init
+├── configs/               # Cấu hình bên thứ 3 (Stripe, Cloudinary, Socket.IO, Email)
+├── controllers/           # Business logic — xử lý request
+├── middleware/             # Auth, ownership verification
+├── models/                # Mongoose schemas & models
+├── routes/                # Express route definitions
+│   ├── *Routes.js         # Public/authenticated routes
+│   └── internalRoutes.js  # Inter-service communication (không qua gateway)
+├── utils/                 # Helpers (email, date, notifications)
+├── jobs/                  # Scheduled tasks (chỉ operations-service)
+├── Dockerfile             # Container build
+└── package.json
 ```
 
 ---
